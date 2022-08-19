@@ -33,7 +33,7 @@ function Board(props) {
 
   return (
     <section className="w-full px-6 md:px-0 md:mr-8">
-      <header className="flex justify-between mb-4 w-full items-center">
+      <header className="flex justify-between mt-1 mb-4 w-full items-center">
         <h3 className="col-span-3 text-normal lg:text-2xl font-semibold text-slate-600">
           {props.tasksForBoard[0].task}
         </h3>

@@ -10,6 +10,11 @@ function CardDescription(props) {
   const [progressData, setProgressData] = useState();
   const [commentData, setCommentData] = useState();
   const card = props.cardToShow;
+  const topCommentors =
+    card.comments &&
+    card.comments.filter((c, i) => {
+      return i < 3;
+    });
 
   const currentUser = {
     userId: "hgfiye598",
@@ -67,7 +72,17 @@ function CardDescription(props) {
         {card.comments && (
           // commenter's images
           <div className="flex items-center gap-1">
-            <img
+            {topCommentors &&
+              topCommentors.map((c) => {
+                return (
+                  <img
+                    src={`users/${c.photoId}.jpg`}
+                    className="border-2 rounded-full bg-slate-300 w-10 h-10"
+                    alt={`${card.comments[0].userName}`}
+                  />
+                );
+              })}
+            {/* <img
               src={`users/${card.comments[0].photoId}.jpg`}
               className="border-2 rounded-full bg-slate-300 w-10 h-10"
               alt={`${card.comments[0].userName}`}
@@ -77,8 +92,13 @@ function CardDescription(props) {
               className="border-2 rounded-full bg-slate-300 w-10 h-10"
               alt={`${card.comments[1].userName}`}
             />
+            <img
+              src={`users/${card.comments[2].photoId}.jpg`}
+              className="border-2 rounded-full bg-slate-300 w-10 h-10"
+              alt={`${card.comments[1].userName}`}
+            /> */}
             <p className="tracking-widest">...</p>
-            <a
+            {/* <a
               href="/"
               className="text-slate-500 w-8 h-8 shadow-btn rounded-full flex items-center justify-center"
             >
@@ -96,7 +116,7 @@ function CardDescription(props) {
                   d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                 />
               </svg>
-            </a>
+            </a> */}
           </div>
         )}
       </div>

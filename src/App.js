@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="font-poppins bg-[#f2f2ff] text-slate-700 h-screen w-screen flex justify-center items-center ">
       {/* container */}
-      <div className="w-full h-full  md:w-[90vw] xl:w-[80vw] md:h-[90%] shadow-outset md:rounded-3xl py-8  space-y-8 flex flex-col">
+      <div className="w-full h-full  md:w-[90vw] xl:w-[80vw] md:h-[90%] shadow-outset md:rounded-3xl py-8  space-y-4 flex flex-col">
         <Header
           team={allData[0].team}
           user={{ userName: allData[0].userName, photoId: allData[0].photoId }}

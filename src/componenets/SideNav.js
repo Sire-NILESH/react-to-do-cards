@@ -18,7 +18,7 @@ function SideNav(props) {
   return (
     <aside className="hidden md:inline-block w-1/4 h-full overflow-auto">
       {/* <!-- 01 --> */}
-      <div className="space-y-4 mb-8 mt-2 ">
+      <div className="space-y-4 mb-8 mt-[0.75rem] ">
         <h3 className="col-span-1 text-normal lg:text-2xl font-semibold text-slate-300 ml-8">
           Design team
         </h3>
