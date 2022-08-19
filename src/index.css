@@ -1,13 +1,103 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body:focus {
+  outline: none;
+}
+
+*:focus {
+  outline: none;
+  outline: 2px solid rgba(11, 179, 245, 0.932);
+  /* outline-offset: 1px; */
+  /* or */
+  /* box-shadow: 0 0 0 0.5rem rgba(11, 179, 245, 0.5); */
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:wght@200;300;400;500;600;700&family=Rubik:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,700;1,800;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ----------------to do--------------------- */
+.shadow-outset {
+  background: #f2f2ff;
+  box-shadow: 18px 37px 74px #c6c6d1, -37px -37px 74px #ffffff;
+}
+
+.shadow-btn {
+  @apply border-t-2 border-l-2 border-[#fdfbfb];
+  background: #f2f2ff;
+  box-shadow: 5px 5px 11px #d0d0db, -5px -5px 11px #ffffff;
+}
+.shadow-btn-blue {
+  background: #f2f2ff;
+  box-shadow: 5px 5px 11px #8383f3;
+}
+
+.shadow-inset {
+  background: #f2f2ff;
+  box-shadow: inset 3px 3px 7px #e3e3f0, inset -3px -3px 7px #ffffff;
+  border-top: 2px;
+  border-left: 2px;
+  border-color: #fdfbfb;
+}
+
+.current-option {
+  @apply bg-blue-700 text-white;
+  box-shadow: 0px 4px 4px #8383f3;
+}
+.current-option:hover {
+  @apply !bg-blue-700 !text-white;
+}
+
+.card-todo {
+  border-radius: 18px;
+  background: #f2f2ff;
+  box-shadow: 10px 10px 20px #dadae4, -20px -20px 20px #f2f2ff;
+  /* box-shadow: 10px 10px 20px #dadae4, -20px -20px 60px #f2f2ff; */
+}
+
+.profile {
+  border-radius: 18px;
+  background: #f2f2ff;
+  box-shadow: 10px 10px 20px #dadae4, -20px -20px 30px #f2f2ff;
+  /* box-shadow: 5px 5px 15px #dadae4, -5px -5px 10px #f2f2ff; */
+}
+
+/* scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f2f2ff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(83, 215, 255);
+  border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(27, 200, 253);
+}
+
+/* ------------------------------------- */
