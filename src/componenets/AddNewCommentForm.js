@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import { allTasksActions } from "../store/all-tasks-slice";
 
 function AddNewCommentForm(props) {
   const [showButtons, setShowButtons] = useState(false);
+  const dispatch = useDispatch();
+  const currOption = useSelector((state) => state.currentOption);
+  const currUser = useSelector((state) => state.currentUser);
 
   const {
     register,
@@ -12,6 +17,18 @@ function AddNewCommentForm(props) {
   } = useForm();
 
   const onFormSubmitHandler = (data) => {
+    dispatch(
+      allTasksActions.addComment({
+        taskType: currOption.taskType,
+        taskId: currOption.taskId,
+        userId: currUser.userId,
+        userName: currUser.userName,
+        photoId: currUser.photoId,
+        category: props.cardCategory,
+        cardId: props.cardId,
+        ...data,
+      })
+    );
     props.formDataHandler(data);
     reset();
     setShowButtons(false);
@@ -20,7 +37,7 @@ function AddNewCommentForm(props) {
   return (
     <form
       onSubmit={handleSubmit(onFormSubmitHandler)}
-      className="flex items-start justify-start space-x-2 relative"
+      className="relative flex items-start justify-start space-x-2"
     >
       {/* -- user image -- */}
       <img
@@ -28,40 +45,40 @@ function AddNewCommentForm(props) {
         className="h-8 w-8 rounded-full"
         alt={`${props.currentUser.userName}`}
       />
-      <div className="w-full flex flex-col gap-2">
+      <div className="flex w-full flex-col gap-2">
         <input
           type="text"
           placeholder="Write comment"
-          className="card-todo py-2 px-4 rounded-full w-full h-full focus:outline-none text-sm text-slate-500 "
-          {...register("comment", { required: true, maxLength: 18 })}
+          className="card-todo h-full w-full rounded-full py-2 px-4 text-sm text-slate-500 focus:outline-none dark:bg-slate-700 dark:text-slate-300 dark:shadow-2xl"
+          {...register("comment", { required: true, maxLength: 100 })}
           onChange={() => {
             setShowButtons(true);
           }}
         />
         {/* error message */}
-        <div className="text-center ml-8">
+        <div className="ml-8 text-center">
           {errors.title?.type === "required" && (
             <span className="text-xs text-red-500 "> Cannot be empty</span>
           )}
           {errors.title?.type === "maxLength" && (
-            <span className="text-xs text-red-500">
+            <span className="mt-[96rem] text-xs text-red-500">
               {" "}
-              Cannot be more than 18 characters
+              Cannot be more than 100 characters
             </span>
           )}
         </div>
         {/* Buttons */}
         {showButtons && (
-          <div className="flex gap-1 justify-end items-center absolute -bottom-8 right-0">
+          <div className="absolute -bottom-8 right-0 flex items-center justify-end gap-1">
             <button
               type="submit"
-              className="bg-blue-500 px-2 py-1 rounded-full w-20 shadow-md text-white text-sm"
+              className="w-20 rounded-full bg-blue-500 px-2 py-1 text-sm text-white shadow-md"
             >
               Add
             </button>
             <button
               type="button"
-              className=" px-2 py-1 rounded-full w-20 text-slate-500 text-sm shadow-md"
+              className=" w-20 rounded-full px-2 py-1 text-sm text-slate-500 shadow-md dark:shadow-none dark:ring-1"
               onClick={() => {
                 reset();
                 setShowButtons(false);

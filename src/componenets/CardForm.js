@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import CardModal from "./CardModal";
+import { useSelector, useDispatch } from "react-redux";
+import { allTasksActions } from "../store/all-tasks-slice";
 
 function CardForm(props) {
   const [priority, setPriority] = useState(props.card && props.card.priority);
@@ -8,8 +10,15 @@ function CardForm(props) {
   const [cardTitle, setCardTitle] = useState();
   const [cardDescription, setCardDescription] = useState();
   const [cardSection, setCardSection] = useState();
+  const currOption = useSelector((state) => state.currentOption);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setCardSection(props.cardCategory);
+  }, [props.cardCategory]);
 
   let cardData = props.card;
+  console.log(props);
   // let cardData = { date: "2022-09-03" };
 
   const dateOnChangeHandler = (e) => {
@@ -36,8 +45,8 @@ function CardForm(props) {
   } = useForm();
 
   const priorityColorCode = {
-    low: "bg-cyan-400",
-    medium: "bg-yellow-400",
+    low: "bg-cyan-400 dark:text-slate-600",
+    medium: "bg-yellow-400 dark:text-slate-600",
     high: "bg-red-500 !text-white",
   };
 
@@ -53,20 +62,58 @@ function CardForm(props) {
       formData = { priority, ...data };
     }
 
-    const options = {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    };
-    const dateTemp = new Intl.DateTimeFormat("en-GB", options)
-      .format(new Date(formData.unprocessedDate))
-      .split(" ");
-    const processedDate = `${dateTemp[1]} ${dateTemp[0]}, ${dateTemp[2]}`;
-    console.log(processedDate);
+    if (formData.unprocessedDate) {
+      const options = {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      };
+      const dateTemp = new Intl.DateTimeFormat("en-GB", options)
+        .format(new Date(formData.unprocessedDate))
+        .split(" ");
+      const processedDate = `${dateTemp[1]} ${dateTemp[0]}, ${dateTemp[2]}`;
+      formData.date = processedDate;
+    }
 
-    formData = { date: processedDate, ...formData };
-    formData.description = formData.description.split(".");
-    console.log(formData);
+    // formData.description.replace(/(\r\n|\n|\r)/gm, " ");
+    formData.description = formData.description.split(". ");
+    // formData.description = formData.description.split(". ");
+
+    if (props.type !== "editing") {
+      formData = {
+        taskId: currOption.taskId,
+        taskType: currOption.taskType,
+        cardData: {
+          ...formData,
+        },
+      };
+      console.log(formData);
+      dispatch(allTasksActions.addCard(formData));
+    } else {
+      formData = {
+        taskId: currOption.taskId,
+        taskType: currOption.taskType,
+        cardData: {
+          cardId: props.card.cardId,
+          currentCategory: props.cardCategory,
+          cardUpdates: formData,
+        },
+      };
+      console.log(formData);
+      dispatch(allTasksActions.updateCard(formData));
+      if (props.currentCategory !== formData.cardData.cardUpdates.category) {
+        dispatch(
+          allTasksActions.moveCard({
+            taskId: currOption.taskId,
+            taskType: currOption.taskType,
+            cardData: {
+              currentCategory: props.cardCategory,
+              targetCategory: formData.cardData.cardUpdates.category,
+            },
+          })
+        );
+      }
+    }
     props.setFormData(formData);
     reset();
     props.closeHandler();
@@ -74,34 +121,34 @@ function CardForm(props) {
 
   return (
     <CardModal
-      title="Add a new Card"
+      title={props.type === "editing" ? "Editing the Card" : "Add a new Card"}
       openHandler={props.openHandler}
       closeHandler={props.closeHandler}
       isOpen={props.isOpen}
     >
       <div className="mt-0">
-        <p className="text-left text-slate-500 mb-6 text-base">
+        <p className="mb-6 text-left text-base text-slate-500">
           {props.type === "adding"
             ? "You are adding a new Card to "
             : "You are editing a Card from "}
-          <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+          <span className="text-sm font-bold uppercase tracking-wider text-slate-400">
             {props.title}{" "}
           </span>
           section of{" "}
-          <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+          <span className="text-sm font-bold uppercase tracking-wider text-slate-400">
             {props.taskName}.
           </span>
         </p>
         {/* -- form-box -- */}
         <form className="w-full" onSubmit={handleSubmit(onFormSubmitHandler)}>
-          <p className="text-left text-slate-400 mb-4 text-sm">
+          <p className="mb-4 text-left text-sm text-slate-400">
             Set Priority for the Card
           </p>
 
-          <div className="flex mb-12 items-center justify-between gap-4">
+          <div className="mb-12 flex items-center justify-between gap-4">
             <button
               type="button"
-              className={`uppercase font-semibold text-normal tracking-widest md:tracking-[4px] text-slate-600  shadow-sm hover:bg-cyan-400 md:px-6 md:py-2 w-32 h-10 rounded-full transition-colors duration-300 ease-out text-center border-2 border-cyan-400 ${
+              className={`text-normal h-10 w-32 rounded-full border-2 border-cyan-400 text-center  font-semibold uppercase tracking-widest text-slate-600 shadow-sm transition-colors duration-300 ease-out hover:bg-cyan-400 dark:text-slate-300 dark:hover:text-slate-800 md:px-6 md:py-2 md:tracking-[4px] ${
                 priority === "low" && priorityColorCode[priority]
               }`}
               onClick={() => priorityHandler("low")}
@@ -110,7 +157,7 @@ function CardForm(props) {
             </button>
             <button
               type="button"
-              className={`uppercase font-semibold text-normal tracking-widest md:tracking-[4px] text-slate-600  shadow-sm hover:bg-yellow-400 md:px-6 md:py-2 w-32 h-10 rounded-full transition-colors duration-300 ease-out text-center border-2 border-yellow-400 ${
+              className={`text-normal h-10 w-32 rounded-full border-2 border-yellow-400 text-center  font-semibold uppercase tracking-widest text-slate-600 shadow-sm transition-colors duration-300 ease-out hover:bg-yellow-400 dark:text-slate-300 dark:hover:text-slate-800 md:px-6 md:py-2 md:tracking-[4px] ${
                 priority === "medium" && priorityColorCode[priority]
               }`}
               onClick={() => priorityHandler("medium")}
@@ -119,7 +166,7 @@ function CardForm(props) {
             </button>
             <button
               type="button"
-              className={`uppercase font-semibold text-normal tracking-widest md:tracking-[4px] text-slate-600 hover:text-white  shadow-sm hover:bg-red-600 md:px-6 md:py-2 w-32 h-10 rounded-full transition-colors duration-300 ease-out text-center border-2 border-red-600 ${
+              className={`text-normal h-10 w-32 rounded-full border-2 border-red-600 text-center font-semibold  uppercase tracking-widest text-slate-600 shadow-sm transition-colors duration-300 ease-out hover:bg-red-600 hover:text-white dark:text-slate-300 md:px-6 md:py-2 md:tracking-[4px] ${
                 priority === "high" && priorityColorCode[priority]
               }`}
               onClick={() => priorityHandler("high")}
@@ -128,17 +175,17 @@ function CardForm(props) {
             </button>
           </div>
 
-          <div className="flex items-center justify-center space-x-6 mb-6">
-            <div className="w-52 border-t-2 border-slate-300"></div>
+          <div className="mb-6 flex items-center justify-center space-x-6">
+            <div className="w-52 border-t-2 border-slate-300 dark:border-slate-700"></div>
             <p className="text-center text-slate-400">Details</p>
-            <div className="w-52 border-t-2 border-slate-300"></div>
+            <div className="w-52 border-t-2 border-slate-300 dark:border-slate-700"></div>
           </div>
 
           {/* -- inputs -- */}
           <div className="mb-6">
             <label
               htmlFor="cardTitle"
-              className="block mb-1 font-semibold text-slate-500"
+              className="mb-1 block font-semibold text-slate-500 dark:text-slate-300"
             >
               Card Title
             </label>
@@ -146,7 +193,7 @@ function CardForm(props) {
               // value={cardData && cardData.title}
               value={cardTitle ? cardTitle : cardData && cardData.title}
               type="text"
-              className="shadow-md bg-[#f2f2ff] border-t-2 border-l-2 border-white block text-slate-600 w-full px-5 py-2 rounded-full myinput font-poppins placeholder:text-sm"
+              className="myinput block w-full rounded-full border-t-2 border-l-2 border-white bg-[#f2f2ff] px-5 py-2 font-poppins text-slate-600 shadow-md placeholder:text-sm dark:border-0 dark:bg-slate-600 dark:text-slate-300 dark:shadow-none"
               placeholder="mention a title"
               id="cardTitle"
               {...register("title", { required: true, maxLength: 50 })}
@@ -168,7 +215,7 @@ function CardForm(props) {
           <div className="mb-6">
             <label
               htmlFor="cardDescription"
-              className="block mb-1 font-semibold  text-slate-500"
+              className="mb-1 block font-semibold  text-slate-500 dark:text-slate-300 "
             >
               Description
             </label>
@@ -180,10 +227,10 @@ function CardForm(props) {
                   : cardData && cardData.description.join(". ")
               }
               rows="5"
-              className="shadow-md bg-[#f2f2ff] border-t-2 border-l-2 border-white block text-slate-600 w-full px-6 py-4 rounded-3xl mb-2 myinput font-poppins placeholder:text-sm"
+              className="myinput mb-2 block w-full  rounded-3xl border-t-2 border-l-2 border-white bg-[#f2f2ff] px-6 py-4 font-poppins text-slate-600 shadow-md placeholder:text-sm dark:border-none dark:bg-slate-600 dark:text-slate-300 dark:shadow-none"
               placeholder="describe the task for the card"
               id="cardDescription"
-              {...register("description", { required: true, maxLength: 200 })}
+              {...register("description", { required: true, maxLength: 1000 })}
               onChange={cardDescOnChangeHandler}
             />
             {/* error message */}
@@ -197,7 +244,7 @@ function CardForm(props) {
               {errors.description?.type === "maxLength" && (
                 <span className="text-xs text-red-500">
                   {" "}
-                  Description cannot be more than 200 characters
+                  Description cannot be more than 1000 characters
                 </span>
               )}
             </div>
@@ -206,30 +253,30 @@ function CardForm(props) {
             <div>
               <label
                 htmlFor="cardDate"
-                className="block mb-1 font-semibold  text-slate-500"
+                className="mb-1 block font-semibold  text-slate-500 dark:text-slate-300"
               >
                 Date
               </label>
               <input
                 type="date"
-                value={date ? date : cardData && cardData.date}
-                className="text-slate-400 shadow-inset rounded-full px-5 py-1 font-poppins text-base w-full md:w-48"
+                value={date ? date : cardData && cardData.unprocessedDate}
+                className="shadow-inset w-full rounded-full px-5 py-1 font-poppins text-base text-slate-400 dark:border-none dark:bg-slate-600 dark:text-slate-300 dark:shadow-none md:w-48"
                 id="cardDate"
-                {...register("unprocessedDate", { required: true })}
+                {...register("unprocessedDate")}
                 onChange={dateOnChangeHandler}
               />
               {/* error message */}
-              <div>
+              {/* <div>
                 {errors.Date?.type === "required" && (
                   <span className="text-xs text-red-500">Date is required</span>
                 )}
-              </div>
+              </div> */}
             </div>
 
             <div>
               <label
                 htmlFor="cardSection"
-                className="block mb-1 font-semibold  text-slate-500"
+                className="mb-1 block font-semibold  text-slate-500 dark:text-slate-300 "
               >
                 Section
               </label>
@@ -237,21 +284,21 @@ function CardForm(props) {
                 value={
                   cardSection ? cardSection : cardData && cardData.cardSection
                 }
-                className="text-slate-500 bg-[#f2f2ff] shadow-md border-t-2 border-l-2 border-white rounded-full px-5 py-1 font-poppins text-base tracking-widest uppercase font-semibold w-full md:w-48"
-                {...register("section")}
+                className="w-full rounded-full border-t-2 border-l-2 border-white bg-[#f2f2ff] px-5 py-1 font-poppins text-base font-semibold uppercase tracking-widest text-slate-500 shadow-md dark:border-none dark:bg-slate-600 dark:text-slate-400 dark:shadow-none md:w-48"
+                {...register("category")}
                 onChange={cardSectOnChangeHandler}
               >
-                <option value="Backlog">backlog</option>
-                <option value="Todo">todo</option>
-                <option value="In Progress">in progress</option>
-                <option value="Done">done</option>
+                <option value="backLogCards">backlog</option>
+                <option value="todoCards">todo</option>
+                <option value="inProgressCards">in progress</option>
+                <option value="doneCards">done</option>
               </select>
             </div>
           </div>
 
           <button
             type="submit"
-            className="block w-full rounded-full p-2 text-white text-center font-semibold bg-blue-500 shadow-lg hover:bg-blue-600  transition-colors duration-300"
+            className="block w-full rounded-full bg-blue-500 p-2 text-center font-semibold text-white shadow-lg transition-colors  duration-300 hover:bg-blue-600"
           >
             {props.type === "editing" ? "Update Card" : "Create Card"}
           </button>

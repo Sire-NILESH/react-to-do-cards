@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import CardModal from "./CardModal";
+import { useDispatch } from "react-redux";
+import { allTasksActions } from "../store/all-tasks-slice";
+import { currentOptionActions } from "../store/current-option-slice";
+import { allData } from "./dummyData";
 
 function AddTaskForm(props) {
   const [selected, setSelected] = useState(
-    props.type === "edit" ? props.currentCategory : ""
+    props.type === "edit" ? props.taskType : ""
   );
   const [taskTitle, setTaskTitle] = useState();
+  const dispatch = useDispatch();
 
   const taskTitleOnChangeHandler = (e) => {
     setTaskTitle(e.target.value);
@@ -20,7 +25,7 @@ function AddTaskForm(props) {
   } = useForm();
 
   const onSelectColorCode = () =>
-    "bg-green-300 hover:bg-green-300 ring-0 duration-0";
+    "bg-lime-300 hover:bg-lime-400 ring-0 dark:text-slate-700 duration-0";
 
   const categoryHandler = (selectedCategory) => {
     setSelected(selectedCategory);
@@ -34,8 +39,35 @@ function AddTaskForm(props) {
       formData = { selected };
     }
     data.task ? (formData.task = data.task) : (formData.task = "Untitled");
-    console.log(formData);
-    props.setFormData(formData);
+
+    const resetOptionAndEditTask = () => {
+      // reset the curent option to start option
+      dispatch(
+        currentOptionActions.setCurrentOption({
+          taskType: "designTeamTasks",
+          taskId: allData[0].designTeamTasks[0].taskId,
+        })
+      );
+
+      // edit task
+      dispatch(
+        allTasksActions.updateTask({
+          update: { taskType: formData.selected, title: formData.task },
+          taskType: props.taskType,
+          taskId: props.taskId,
+        })
+      );
+    };
+    props.type === "edit"
+      ? resetOptionAndEditTask()
+      : // dispatch(currentOptionActions.setCurrentOption)
+
+        dispatch(
+          allTasksActions.addTask({
+            taskType: formData.selected,
+            title: formData.task,
+          })
+        );
     reset();
     props.closeHandler();
   };
@@ -51,17 +83,17 @@ function AddTaskForm(props) {
       >
         <div className="mt-0">
           {props.type === "edit" ? (
-            <p className="text-left text-slate-500 mb-6 text-base">
+            <p className="mb-6 text-left text-base text-slate-500">
               You are editing the{" "}
-              <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+              <span className="text-sm font-bold uppercase tracking-wider text-slate-400">
                 {props.currentTitle}{" "}
               </span>
               task
             </p>
           ) : (
-            <p className="text-left text-slate-500 mb-6 text-base">
+            <p className="mb-6 text-left text-base text-slate-500">
               Default is{" "}
-              <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+              <span className="text-sm font-bold uppercase tracking-wider text-slate-400">
                 Personal category
               </span>
               .
@@ -70,14 +102,14 @@ function AddTaskForm(props) {
 
           {/* -- form box -- */}
           <form className="w-full" onSubmit={handleSubmit(onFormSubmitHandler)}>
-            <p className="text-left text-slate-400 mb-4 text-sm">
+            <p className="mb-4 text-left text-sm text-slate-400">
               Select Category for the task
             </p>
 
-            <div className="flex mb-12 items-center space-x-6">
+            <div className="mb-12 flex items-center space-x-6">
               <button
                 type="button"
-                className={`uppercase font-semibold text-sm md:text-normal tracking-widest md:tracking-[4px] text-slate-600 hover:bg-green-100  p-2 md:px-6 py-2 flex-1  h-10 rounded-full transition-colors duration-300 ease-out text-center ring-2 ring-gray-200 ${
+                className={`md:text-normal h-10 flex-1 rounded-full p-2 py-2 text-center text-sm font-semibold uppercase tracking-widest  text-slate-600 ring-2 ring-gray-200 transition-colors duration-300 ease-out hover:bg-green-100 dark:text-slate-300 dark:ring-gray-700 dark:hover:text-slate-700 md:px-6 md:tracking-[4px] ${
                   selected === "designTeamTasks" && onSelectColorCode()
                 }`}
                 onClick={() => categoryHandler("designTeamTasks")}
@@ -86,7 +118,7 @@ function AddTaskForm(props) {
               </button>
               <button
                 type="button"
-                className={`uppercase font-semibold text-sm md:text-normal tracking-widest md:tracking-[4px] text-slate-600 hover:bg-green-100  p-2 md:px-6 py-2 flex-1 h-10 rounded-full transition-colors duration-300 ease-out text-center ring-2 ring-gray-200 ${
+                className={`md:text-normal h-10 flex-1 rounded-full p-2 py-2 text-center text-sm font-semibold uppercase tracking-widest  text-slate-600 ring-2 ring-gray-200 transition-colors duration-300 ease-out hover:bg-green-100 dark:text-slate-300 dark:ring-gray-700 dark:hover:text-slate-700 md:px-6 md:tracking-[4px] ${
                   selected === "personalTasks" && onSelectColorCode()
                 }`}
                 onClick={() => categoryHandler("personalTasks")}
@@ -95,17 +127,17 @@ function AddTaskForm(props) {
               </button>
             </div>
 
-            <div className="flex items-center justify-center space-x-6 mb-6">
-              <div className="w-52 border-t-2 border-slate-300"></div>
+            <div className="mb-6 flex items-center justify-center space-x-6">
+              <div className="w-52 border-t-2 border-slate-300 dark:border-slate-700"></div>
               <p className="text-center text-slate-400">Details</p>
-              <div className="w-52 border-t-2 border-slate-300"></div>
+              <div className="w-52 border-t-2 border-slate-300 dark:border-slate-700"></div>
             </div>
 
             {/* -- inputs -- */}
             <div className="mb-12">
               <label
                 htmlFor="cardTitle"
-                className="block mb-1 font-semibold text-slate-500"
+                className="mb-1 block font-semibold text-slate-500 dark:text-slate-300"
               >
                 Task title
               </label>
@@ -116,7 +148,7 @@ function AddTaskForm(props) {
                     ? taskTitle
                     : props.currentTitle && props.currentTitle
                 }
-                className="shadow-md bg-[#f2f2ff] border-t-2 border-l-2 border-white block text-slate-600 w-full px-5 py-2 rounded-full myinput font-poppins placeholder:text-sm"
+                className="myinput block w-full rounded-full border-t-2 border-l-2 border-white bg-[#f2f2ff] px-5 py-2 font-poppins text-slate-600 shadow-md placeholder:text-sm dark:border-none dark:bg-slate-600 dark:text-slate-300"
                 placeholder="Untitled"
                 id="taskName"
                 {...register("task", { maxLength: 22 })}
@@ -135,7 +167,7 @@ function AddTaskForm(props) {
 
             <button
               type="submit"
-              className="block w-full rounded-full p-2 text-white text-center font-semibold bg-blue-500 hover:bg-blue-600 transition-all duration-300 shadow-lg"
+              className="block w-full rounded-full bg-blue-500 p-2 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:bg-blue-600"
             >
               {props.type === "edit" ? "Update Task" : "Create Task"}
             </button>

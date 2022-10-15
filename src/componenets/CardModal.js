@@ -6,7 +6,7 @@ function CardModal(props) {
     <div>
       {/* Modal */}
       <Transition appear show={props.isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={props.closeHandler}>
+        <Dialog as="div" className="relative z-50" onClose={props.closeHandler}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -16,7 +16,8 @@ function CardModal(props) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            {/* <div className="fixed inset-0 bg-gray-300/10 backdrop-blur-md" /> */}
+            <div className="fixed inset-0  bg-black bg-opacity-25" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -31,20 +32,20 @@ function CardModal(props) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel
-                  className={`absolute top-[16%] left-1/2 transform -translate-x-1/2 w-[90vw] sm:w-[32rem] md:w-[36rem] ${
+                  className={`absolute top-[16%] left-1/2  w-[90vw] -translate-x-1/2 transform sm:w-[32rem] md:w-[36rem] ${
                     props.variant && props.variant === "short"
                       ? ""
                       : "min-h-[48rem]"
-                  } px-6 py-10 md:p-12 bg-[#f2f2ff] rounded-3xl  border-t-4 border-l-4 border-[#fdfbfb] flex flex-col gap-8 overflow-auto z-40`}
+                  } z-40 flex flex-col gap-8 overflow-auto  rounded-3xl border-t-4 border-l-4  border-[#fdfbfb]  bg-[#f2f2ff] px-6 py-10 shadow-md dark:border-none dark:bg-gray-800 md:p-12`}
                 >
                   <Dialog.Title as="div">
                     <div className="flex justify-between">
-                      <h2 className="font-semibold text-2xl text-slate-600 w-[65%]">
+                      <h2 className="w-[65%] text-2xl font-semibold text-slate-600 dark:text-slate-300">
                         {/* {card && card.title} */}
                         {props.title}
                       </h2>
                       <button
-                        className=" text-slate-500 w-8 h-8 shadow-btn rounded-full flex items-center justify-center border-t-2 border-l-2 border-[#fdfbfb] "
+                        className="shadow-btn flex h-8 w-8 items-center justify-center rounded-full border-t-2 border-l-2 border-[#fdfbfb] text-slate-500 dark:border-2 dark:border-gray-700 dark:bg-slate-800 dark:shadow-none dark:hover:border-gray-600"
                         onClick={props.closeHandler}
                       >
                         <svg

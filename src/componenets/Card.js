@@ -42,18 +42,22 @@ function Card(props) {
 
   return (
     <div>
-      <div className="card-todo w-full p-4 space-y-2   hover:!shadow-md border-t-2 border-l-2 border-[#fdfbfb] transition-shadow duration-300 ease-out">
-        <header className="flex justify-between items-center">
+      <div className="card-todo w-full space-y-2 border-t-2 border-l-2 border-[#fdfbfb]  p-4 transition-all duration-300 ease-out hover:!shadow-md dark:border-2 dark:border-gray-800 dark:bg-gray-800 dark:!shadow-none dark:hover:border-gray-700 ">
+        <header className="flex items-center justify-between">
           <div
-            className={`w-20 h-2 ${
+            className={`h-2 w-20 ${
               priorityColorCode[props.card.priority]
-            } px-6 rounded-full hover:w-24 transition-all duration-300 ease-out cursor-pointer`}
+            } cursor-pointer rounded-full px-6 transition-all duration-300 ease-out hover:w-24`}
           ></div>
-          <CardsMore setFormData={setFormData} openModal={openEditModal}>
+          <CardsMore
+            cardId={props.card.cardId}
+            cardCategory={props.cardCategory}
+            openModal={openEditModal}
+          >
             <button type="button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-slate-400 hover:text-slate-600 cursor-pointer transition-text duration-300 ease-out"
+                className="transition-text h-6 w-6 cursor-pointer text-slate-400 duration-300 ease-out hover:text-slate-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -68,32 +72,37 @@ function Card(props) {
             </button>
           </CardsMore>
         </header>
-        <div className="flex flex-col gap-4 cursor-pointer" onClick={openModal}>
-          <p className="text-sm text-slate-500 font-semibold">
+        <div className="flex cursor-pointer flex-col gap-4" onClick={openModal}>
+          <p className="text-sm font-semibold text-slate-500">
             {props.card.title}
           </p>
           {props.card.date && <Date size="md" date={props.card.date} />}
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             {props.card.totalComments && (
-              <p className="text-xs text-slate-400 tracking-wide">
+              <p className="text-xs tracking-wide text-slate-400">
                 {props.card.totalComments} comments
               </p>
             )}
 
             {/* <!-- member's images --> */}
-            {props.card.comments && (
+            {props.card.comments && props.card.comments.length > 0 && (
               <div className="flex gap-1">
-                <img
-                  src={`users/${props.card.comments[0].photoId}.jpg`}
-                  className="w-6 h-6 rounded-full"
-                  alt={`${props.card.comments[0].userName}`}
-                />
-                <img
-                  src={`users/${props.card.comments[1].photoId}.jpg`}
-                  className="w-6 h-6 rounded-full"
-                  alt={`${props.card.comments[1].userName}`}
-                />
-                <span className="text-slate-400 tracking-widest">...</span>
+                {props.card.comments.map((c, i) => {
+                  if (i < 2) {
+                    return (
+                      <img
+                        key={i}
+                        src={`users/${props.card.comments[i].photoId}.jpg`}
+                        className="h-6 w-6 rounded-full"
+                        alt={`${props.card.comments[0].userName}`}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+
+                <span className="tracking-widest text-slate-400">...</span>
               </div>
             )}
           </div>
@@ -107,6 +116,9 @@ function Card(props) {
           closeHandler={closeModal}
           isOpen={isOpen}
           cardToShow={cardToShow}
+          title={props.title}
+          cardCategory={props.cardCategory}
+          cardId={cardToShow.cardId}
         />
       )}
       {/* Edit Card Modal */}
@@ -124,8 +136,10 @@ function Card(props) {
             priority: cardToShow.priority,
             description: cardToShow.description,
             cardId: cardToShow.cardId,
+            unprocessedDate: cardToShow.unprocessedDate,
           }}
           type="editing"
+          cardCategory={props.cardCategory}
         />
       )}
     </div>

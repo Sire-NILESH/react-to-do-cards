@@ -15,11 +15,11 @@ function AddNewCard(props) {
 
   return (
     //   -- add new cards --  }
-    <div className="flex gap-3 items-center">
+    <div className="flex items-center gap-3">
       <button type="button" onClick={openModal}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-slate-500 cursor-pointer"
+          className="h-6 w-6 cursor-pointer text-slate-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -43,6 +43,7 @@ function AddNewCard(props) {
           taskName={props.taskName}
           setFormData={setFormData}
           type="adding"
+          cardCategory={props.cardCategory}
         />
       )}
     </div>

@@ -87,6 +87,7 @@ code {
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f2f2ff;
+  @apply bg-[#f2f2ff] dark:bg-stone-900;
 }
 
 /* Handle */

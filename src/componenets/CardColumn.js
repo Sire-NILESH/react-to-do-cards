@@ -3,25 +3,41 @@ import AddNewCard from "./AddNewCard";
 import Card from "./Card";
 
 function CardColumn(props) {
+  const categoryMapper = {
+    backLog: "backLogCards",
+    todo: "todoCards",
+    "in progress": "inProgressCards",
+    done: "doneCards",
+  };
+
   return (
     //  {/* -- COL-1 -- */}
     <div>
       <div className="flex flex-col gap-6">
-        <p className="uppercase tracking-[4px] font-bold text-normal text-slate-500">
-          {props.title}
+        <p className="text-normal font-bold uppercase tracking-[4px] text-slate-500">
+          {props && props.title}
         </p>
 
         {/*  card container col  */}
         {/* cards */}
-        <div className="flex flex-col gap-6 ml-3">
+        <div className="ml-3 flex flex-col gap-6">
           {props.cards.map((card) => (
-            <div key={card.cardId}>
-              <Card card={card} taskName={props.taskName} title={props.title} />
+            <div key={props && card.cardId}>
+              <Card
+                card={card}
+                cardCategory={categoryMapper[props.title]}
+                taskName={props && props.taskName}
+                title={props.title}
+              />
             </div>
           ))}
 
           {/* add new cards  */}
-          <AddNewCard taskName={props.taskName} title={props.title} />
+          <AddNewCard
+            taskName={props && props.taskName}
+            title={props.title}
+            cardCategory={categoryMapper[props.title]}
+          />
         </div>
       </div>
     </div>

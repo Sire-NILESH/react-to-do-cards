@@ -18,17 +18,17 @@ function AddNewProgress(props) {
   return (
     <form
       onSubmit={handleSubmit(onFormSubmitHandler)}
-      className="flex flex-col gap-2 w-[8.5rem] absolute left-0 -top-1 z-10"
+      className="absolute left-0 -top-1 z-10 flex w-[8.5rem] flex-col gap-2"
     >
       <div className="w-full">
         <input
           type="text"
           placeholder="Add a progress"
-          className="text-slate-500 font-sm px-2 py-1 rounded-full shadow-sm full"
+          className="font-sm full rounded-full px-2 py-1 text-slate-500 shadow-sm focus:outline-none dark:bg-slate-700 dark:text-slate-300 dark:shadow-2xl"
           {...register("title", { required: true, maxLength: 18 })}
         />
         {/* error message */}
-        <div className="text-center ml-8">
+        <div className="ml-8 text-center">
           {errors.title?.type === "required" && (
             <span className="text-xs text-red-500 "> Cannot be empty</span>
           )}
@@ -41,16 +41,16 @@ function AddNewProgress(props) {
         </div>
       </div>
 
-      <div className="flex gap-1 justify-end items-center">
+      <div className="flex items-center justify-end gap-1">
         <button
           type="submit"
-          className="bg-blue-500 px-2 py-1 rounded-full w-14 shadow-md"
+          className="w-14 rounded-full bg-blue-500 px-2 py-1 shadow-md"
         >
           Add
         </button>
         <button
           type="button"
-          className=" px-2 py-1 rounded-full w-14 text-slate-500 shadow-md"
+          className="w-14 rounded-full px-2 py-1 text-slate-500 shadow-md dark:ring-1"
           onClick={() => props.showNewItemHandler(false)}
         >
           Cancel

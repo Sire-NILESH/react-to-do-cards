@@ -1,10 +1,38 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-// import CardForm from "./CardForm";
+import { allTasksActions } from "../store/all-tasks-slice";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function CardsMore(props) {
+  const currOption = useSelector((state) => state.currentOption);
+  const dispatch = useDispatch();
+
   const showCardFormHandler = () => {
     return props.openModal();
+  };
+
+  const moveCardToDoneHandler = () => {
+    dispatch(
+      allTasksActions.moveCard({
+        taskType: currOption.taskType,
+        taskId: currOption.taskId,
+        cardData: {
+          cardId: props.cardId,
+          currentCategory: props.cardCategory,
+          targetCategory: "doneCards",
+        },
+      })
+    );
+  };
+
+  const deleteCardHandler = () => {
+    dispatch(
+      allTasksActions.deleteCard({
+        taskType: currOption.taskType,
+        taskId: currOption.taskId,
+        cardData: { cardId: props.cardId, category: props.cardCategory },
+      })
+    );
   };
 
   return (
@@ -22,13 +50,15 @@ export default function CardsMore(props) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="card-todo z-20 py-2 absolute right-0 mt-2 w-48 lg:w-56 origin-top-right divide-y !bg-[#e9f6ff] divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="card-todo absolute right-0 z-20 mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md !bg-[#e9f6ff] py-2 shadow-lg ring-1 ring-black ring-opacity-5  focus:outline-none dark:divide-gray-600 dark:!bg-gray-700  dark:shadow-none ">
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-blue-700 text-white" : "text-gray-900"
+                      active
+                        ? "bg-blue-700 text-white"
+                        : "text-gray-900 dark:!text-slate-300"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     onClick={showCardFormHandler}
                   >
@@ -47,58 +77,15 @@ export default function CardsMore(props) {
                   </button>
                 )}
               </Menu.Item>
-              {/* <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-blue-700 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    {active ? (
-                      <DuplicateActiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <DuplicateInactiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Duplicate
-                  </button>
-                )}
-              </Menu.Item> */}
             </div>
             <div className="px-1 py-1">
-              {/* <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-blue-700 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    {active ? (
-                      <ArchiveActiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <ArchiveInactiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Archive
-                  </button>
-                )}
-              </Menu.Item> */}
               <Menu.Item>
                 {({ active }) => (
                   <button
                     className={`${
                       active ? "bg-blue-700 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm dark:!text-slate-300`}
+                    onClick={moveCardToDoneHandler}
                   >
                     {active ? (
                       <MoveActiveIcon
@@ -122,7 +109,8 @@ export default function CardsMore(props) {
                   <button
                     className={`${
                       active ? "bg-blue-700 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm dark:!text-slate-300`}
+                    onClick={deleteCardHandler}
                   >
                     {active ? (
                       <DeleteActiveIcon
@@ -179,116 +167,6 @@ function EditActiveIcon(props) {
         stroke="#C4B5FD"
         strokeWidth="2"
       />
-    </svg>
-  );
-}
-
-function DuplicateInactiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4 4H12V12H4V4Z"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-      <path
-        d="M8 8H16V16H8V8Z"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
-function DuplicateActiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4 4H12V12H4V4Z"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-      <path
-        d="M8 8H16V16H8V8Z"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
-function ArchiveInactiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="5"
-        y="8"
-        width="10"
-        height="8"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-      <rect
-        x="4"
-        y="4"
-        width="12"
-        height="4"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-      <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
-    </svg>
-  );
-}
-
-function ArchiveActiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="5"
-        y="8"
-        width="10"
-        height="8"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-      <rect
-        x="4"
-        y="4"
-        width="12"
-        height="4"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-      <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
   );
 }

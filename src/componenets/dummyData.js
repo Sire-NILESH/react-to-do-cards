@@ -151,9 +151,16 @@ export const users = [
 export const allData = [
   {
     id: "23214",
-    userName: "Filimon Osmond",
-    photoId: "sldjroi",
-    userId: "hgfiye598",
+    user: {
+      userId: "hgfiye598",
+      userName: "Filimon Osmond",
+      photoId: "sldjroi",
+      userEmail: "filimon43@mail.com",
+      role: "Admin",
+    },
+    // userName: "Filimon Osmond",
+    // photoId: "sldjroi",
+    // userId: "hgfiye598",
     team: [
       {
         userId: "hgfiye598",
@@ -230,6 +237,18 @@ export const allData = [
       {
         taskId: "45u30dsifj",
         task: "Design tasks",
+        taskTeam: [
+          { userId: "hgfiye598" },
+          { userId: "cpk392d" },
+          { userId: "vasger2t2" },
+          { userId: "cnjwh7" },
+          { userId: "vnu4h327q" },
+          { userId: "bkrdj42" },
+          { userId: "986tcge3" },
+          { userId: "khu34324" },
+          { userId: "ij546ije" },
+          { userId: "kt3s4677f" },
+        ],
         backLogCards: [
           //  card 1
           {
@@ -237,6 +256,7 @@ export const allData = [
             cardId: "fdhd56456df",
             title: "Create case study for Edplace",
             date: "Feb 2, 2022",
+            unprocessedDate: "2022-02-02",
             priority: "low",
             description: [
               "Prepare the client assets from the latest projects to be uploaded on the website",
@@ -395,6 +415,7 @@ export const allData = [
             cardId: "7txf3767j",
             title: "Gather resources for Pitch deck",
             date: "Feb 2, 2022",
+            unprocessedDate: "2022-02-02",
             priority: "low",
             description: [
               "Checkout for the 3rd party libraries that are free for use and paid ones are only allowed that arent already too popular.",
@@ -523,6 +544,7 @@ export const allData = [
             cardId: "237as8d0",
             title: "Case study for Roadz",
             date: "Jan 12, 2022",
+            unprocessedDate: "2022-01-12",
             priority: "low",
             description: [
               "Roadz is a new client so we will need an extensive research work prior to the beginning of the case study.",
@@ -605,6 +627,16 @@ export const allData = [
       {
         taskId: "6e09xxe",
         task: "Halcyon website",
+        taskTeam: [
+          { userId: "ka45e356" },
+          { userId: "lmredj8sae" },
+          { userId: "345oijfd" },
+          { userId: "gfuy67oa2" },
+          { userId: "fnd56rt4" },
+          { userId: "hgm67654" },
+          { userId: "ij546ije" },
+          { userId: "hgfiye598" },
+        ],
         backLogCards: [
           // card 1
           {
@@ -680,6 +712,7 @@ export const allData = [
             cardId: "7txf3767j",
             title: "Gather resources for Pitch deck",
             date: "Feb 2, 2022",
+            unprocessedDate: "2022-02-02",
             priority: "low",
             description: [
               "Checkout for the 3rd party libraries that are free for use and paid ones are only allowed that arent already too popular.",
@@ -762,6 +795,7 @@ export const allData = [
             cardId: "237as8d0",
             title: "Case study for Roadz",
             date: "Jan 12, 2022",
+            unprocessedDate: "2022-01-12",
             priority: "low",
             description: [
               "Roadz is a new client so we will need an extensive research work prior to the beginning of the case study.",
@@ -847,6 +881,7 @@ export const allData = [
             cardId: "fdhd56456df",
             title: "Create case study for Edplace",
             date: "Feb 2, 2022",
+            unprocessedDate: "2022-02-02",
             priority: "low",
             description: [
               "Prepare the client assets from the latest projects to be uploaded on the website",
@@ -979,6 +1014,16 @@ export const allData = [
       {
         taskId: "23efsdfsew",
         task: "Onboarding Materials",
+        taskTeam: [
+          { userId: "hgfiye598" },
+          { userId: "986tcge3" },
+          { userId: "d575erh3" },
+          { userId: "ka45e356" },
+          { userId: "iuw309ejf" },
+          { userId: "fnd56rt4" },
+          { userId: "gf56edfg" },
+          { userId: "kt3s4677f" },
+        ],
         backLogCards: [
           // card 1
           {
@@ -1130,6 +1175,7 @@ export const allData = [
             cardId: "fdhd56456df",
             title: "Create case study for Edplace",
             date: "Feb 2, 2022",
+            unprocessedDate: "2022-02-02",
             priority: "low",
             description: [
               "Prepare the client assets from the latest projects to be uploaded on the website",
@@ -1214,6 +1260,17 @@ export const allData = [
       {
         taskId: "9090fggd4",
         task: "Marketing",
+        taskTeam: [
+          { userId: "hgfiye598" },
+          { userId: "vnu4h327q" },
+          { userId: "ij546ije" },
+          { userId: "drt446d" },
+          { userId: "fnd56rt4" },
+          { userId: "gfuy67oa2" },
+          { userId: "lmredj8sae" },
+          { userId: "iuw309ejf" },
+          { userId: "hgm67654" },
+        ],
         backLogCards: [
           // card 1
           {
@@ -1221,6 +1278,7 @@ export const allData = [
             cardId: "7txf3767j",
             title: "Gather resources for Pitch deck",
             date: "Feb 2, 2022",
+            unprocessedDate: "2022-02-02",
             priority: "low",
             description: [
               "Checkout for the 3rd party libraries that are free for use and paid ones are only allowed that arent already too popular.",
@@ -1305,6 +1363,7 @@ export const allData = [
             cardId: "237as8d0",
             title: "Case study for Roadz",
             date: "Jan 12, 2022",
+            unprocessedDate: "2022-01-12",
             priority: "low",
             description: [
               "Roadz is a new client so we will need an extensive research work prior to the beginning of the case study.",
@@ -1508,6 +1567,7 @@ export const allData = [
       {
         taskId: "568asd90h",
         task: "Home renovations",
+        taskTeam: [],
         backLogCards: [],
         todoCards: [],
         inProgressCards: [],
@@ -1516,6 +1576,7 @@ export const allData = [
       {
         taskId: "3y457eyd",
         task: "Untitled",
+        taskTeam: [],
         backLogCards: [],
         todoCards: [],
         inProgressCards: [],

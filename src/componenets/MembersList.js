@@ -1,76 +1,98 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiBadgeCheck } from "react-icons/hi";
 
 function MembersList(props) {
   const { register, handleSubmit, reset } = useForm();
+  const [memberList, setMemberList] = useState();
+  const [difference, setDifference] = useState();
+
+  useEffect(() => {
+    setMemberList(props.memberList);
+    setDifference(props.difference);
+  }, [props.difference, props.memberList]);
 
   const onFormSubmitHandler = (data) => {
     console.log(data);
+    const selected = [...data];
+    // selected = data.forEach((m) => {
+    //   selected.push(m);
+    // });
+    console.log(selected);
     // props.setFormData(formData);
     reset();
     props.closeHandler();
   };
 
+  if (memberList?.length === 0)
+    return (
+      <div className="flex h-full min-h-[25vh] w-full items-center justify-center text-3xl font-semibold tracking-widest text-slate-300 dark:text-slate-600 xl:mt-36 xl:ml-20 xl:block">
+        No one's here &nbsp; :-(
+      </div>
+    );
+  console.log(props.memberList);
+  console.log(memberList);
+
   return (
     <form
-      className="px-1 space-y-4"
+      className="space-y-4 px-1"
       onSubmit={handleSubmit(onFormSubmitHandler)}
     >
       <ul className="grid">
-        {props.memberList.map((user) => (
-          <li
-            key={user.userId}
-            className="grid grid-cols-8 items-center justify-start gap-2 rounded-lg px-2 py-2 group hover:bg-purple-100 relative"
-          >
-            <div className="flex items-center gap-3 col-span-3">
+        {memberList &&
+          memberList?.map((user) => (
+            <li
+              key={user.userId}
+              className="group relative grid grid-cols-8 grid-rows-2 items-center justify-start gap-x-2 rounded-lg px-2 py-2 hover:bg-purple-100 dark:hover:bg-purple-100/10 md:grid-rows-1"
+            >
               <img
                 src={`users/${user.photoId}.jpg`}
-                className="h-8 w-8 rounded-full "
+                className="col-start-1 row-span-2 h-8 w-8 rounded-full"
                 alt={`${user.userName}`}
               />
-              <p className="text-sm text-slate-500 font-bold">
+              <p className="col-span-4 text-sm font-bold text-slate-500">
                 {user.userName}
               </p>
-            </div>
-            <p className="text-sm text-slate-400 col-span-3">
-              {user.userEmail}
-            </p>
-            <p className="text-sm text-slate-400 col-span-1">{user.role}</p>
+              <p className="col-start-2 row-start-2 text-sm text-slate-400">
+                {user.userEmail}
+              </p>
+              <p className="col-start-6  text-sm text-slate-400  ">
+                {user.role}
+              </p>
 
-            {props.type === "add" &&
-              (props.difference.includes(user) ? (
+              {props.type === "add" &&
+                (difference && difference.includes(user) ? (
+                  <input
+                    type="checkbox"
+                    className="addedMember col-start-8 h-4 w-4 justify-self-center"
+                    name={user.userName}
+                    value={user.userId}
+                    {...register(`${user.userId}`)}
+                  />
+                ) : (
+                  <span className="col-start-8 justify-self-center">
+                    {" "}
+                    <HiBadgeCheck className=" h-6 w-6 text-green-600 " />{" "}
+                  </span>
+                ))}
+
+              {props.type === "remove" && (
                 <input
                   type="checkbox"
-                  className="addedMember h-4 w-4 justify-self-center"
+                  className="addedMember col-start-8 h-4 w-4 justify-self-center"
                   name={user.userName}
                   value={user.userId}
                   {...register(`${user.userName}`)}
                 />
-              ) : (
-                <span className="justify-self-center">
-                  {" "}
-                  <HiBadgeCheck className="w-6 h-6 text-green-600 " />{" "}
-                </span>
-              ))}
-
-            {props.type === "remove" && (
-              <input
-                type="checkbox"
-                className="addedMember h-4 w-4 justify-self-center"
-                name={user.userName}
-                value={user.userId}
-                {...register(`${user.userName}`)}
-              />
-            )}
-          </li>
-        ))}
+              )}
+            </li>
+          ))}
       </ul>
 
-      <div className="border-t-2 border-gray-200 mb-8"></div>
+      <div className="mb-8 border-t-2 border-gray-200 dark:border-gray-700"></div>
       <button
         type="submit"
-        className="block w-full rounded-full p-2 text-white text-center font-semibold bg-blue-500 hover:bg-blue-600 transition-all duration-300 shadow-lg"
+        className="block w-full rounded-full bg-blue-500 p-2 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:bg-blue-600"
       >
         {props.type === "remove" ? "Remove" : "Add"} members
       </button>
