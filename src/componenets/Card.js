@@ -42,12 +42,12 @@ function Card(props) {
 
   return (
     <div>
-      <div className="card-todo w-full space-y-2 border-t-2 border-l-2 border-[#fdfbfb]  p-4 transition-all duration-300 ease-out hover:!shadow-md dark:border-2 dark:border-gray-800 dark:bg-gray-800 dark:!shadow-none dark:hover:border-gray-700 ">
+      <div className="card-todo card-dark-mode group  w-full space-y-2 border-t-2 border-l-2 border-[#fdfbfb] p-4 transition-colors duration-300 ease-out hover:!shadow-md dark:border-2 dark:border-gray-800 dark:bg-gray-800 dark:!shadow-none dark:hover:border-gray-700 ">
         <header className="flex items-center justify-between">
           <div
             className={`h-2 w-20 ${
               priorityColorCode[props.card.priority]
-            } cursor-pointer rounded-full px-6 transition-all duration-300 ease-out hover:w-24`}
+            } cursor-pointer rounded-full px-6 transition-all duration-300 ease-out group-hover:w-28`}
           ></div>
           <CardsMore
             cardId={props.card.cardId}
@@ -57,7 +57,8 @@ function Card(props) {
             <button type="button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="transition-text h-6 w-6 cursor-pointer text-slate-400 duration-300 ease-out hover:text-slate-600"
+                className="transition-text h-6 w-6 cursor-pointer  text-slate-400 duration-300 ease-out  hover:text-slate-600 dark:group-hover:text-slate-800
+                dark:group-hover:hover:text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -73,13 +74,13 @@ function Card(props) {
           </CardsMore>
         </header>
         <div className="flex cursor-pointer flex-col gap-4" onClick={openModal}>
-          <p className="text-sm font-semibold text-slate-500">
+          <p className="text-sm font-semibold text-slate-500 dark:group-hover:text-white">
             {props.card.title}
           </p>
           {props.card.date && <Date size="md" date={props.card.date} />}
           <div className="flex items-center justify-between">
             {props.card.totalComments && (
-              <p className="text-xs tracking-wide text-slate-400">
+              <p className="text-xs tracking-wide text-slate-400 dark:group-hover:text-slate-300">
                 {props.card.totalComments} comments
               </p>
             )}

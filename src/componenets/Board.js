@@ -32,11 +32,6 @@ function Board() {
     dispatch(membersActions.setCurrentTaskMembers(taskDetails.taskTeam));
   }
 
-  // useEffect(() => {
-  //   const taskTeam = props.taskForBoard.taskTeam;
-  //   if (taskTeam) dispatch(membersActions.currentTaskMembers(taskTeam));
-  // }, [dispatch, props.taskForBoard?.taskTeam]);
-
   // TASK FORM
   function closeModal() {
     setIsOpen(false);

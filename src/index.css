@@ -78,6 +78,10 @@ code {
   /* box-shadow: 5px 5px 15px #dadae4, -5px -5px 10px #f2f2ff; */
 }
 
+.card-dark-mode {
+  @apply dark:hover:bg-gradient-to-tr dark:hover:from-purple-600 dark:hover:to-yellow-500;
+}
+
 /* scrollbar */
 /* width */
 ::-webkit-scrollbar {
