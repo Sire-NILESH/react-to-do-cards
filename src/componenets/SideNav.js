@@ -60,7 +60,7 @@ function SideNav(props) {
         onClick={showMobileNaveHandler}
       ></div>
       <aside
-        className={`absolute z-40 h-screen w-[60%] translate-y-[-16%]  transform bg-[#f2f2ff] ${
+        className={`absolute z-40 h-[110%] w-[60%] translate-y-[-16%]  transform bg-[#f2f2ff] ${
           showNavMobile && showNavMobile === "show"
             ? "translate-x-[0%]"
             : "translate-x-[-105%]"

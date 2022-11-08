@@ -18,8 +18,6 @@ function CardForm(props) {
   }, [props.cardCategory]);
 
   let cardData = props.card;
-  console.log(props);
-  // let cardData = { date: "2022-09-03" };
 
   const dateOnChangeHandler = (e) => {
     setDate(e.target.value);
@@ -62,6 +60,8 @@ function CardForm(props) {
       formData = { priority, ...data };
     }
 
+    formData.category = cardSection;
+
     if (formData.unprocessedDate) {
       const options = {
         day: "numeric",
@@ -87,7 +87,6 @@ function CardForm(props) {
           ...formData,
         },
       };
-      console.log(formData);
       dispatch(allTasksActions.addCard(formData));
     } else {
       formData = {
@@ -99,7 +98,6 @@ function CardForm(props) {
           cardUpdates: formData,
         },
       };
-      console.log(formData);
       dispatch(allTasksActions.updateCard(formData));
       if (props.currentCategory !== formData.cardData.cardUpdates.category) {
         dispatch(
@@ -114,7 +112,7 @@ function CardForm(props) {
         );
       }
     }
-    props.setFormData(formData);
+
     reset();
     props.closeHandler();
   };
@@ -187,7 +185,7 @@ function CardForm(props) {
               htmlFor="cardTitle"
               className="mb-1 block font-semibold text-slate-500 dark:text-slate-300"
             >
-              Card Title
+              Card Title*
             </label>
             <input
               // value={cardData && cardData.title}
@@ -217,7 +215,7 @@ function CardForm(props) {
               htmlFor="cardDescription"
               className="mb-1 block font-semibold  text-slate-500 dark:text-slate-300 "
             >
-              Description
+              Description*
             </label>
             <textarea
               type="text"
@@ -285,7 +283,6 @@ function CardForm(props) {
                   cardSection ? cardSection : cardData && cardData.cardSection
                 }
                 className="w-full rounded-full border-t-2 border-l-2 border-white bg-[#f2f2ff] px-5 py-1 font-poppins text-base font-semibold uppercase tracking-widest text-slate-500 shadow-md dark:border-none dark:bg-slate-600 dark:text-slate-400 dark:shadow-none md:w-48"
-                {...register("category")}
                 onChange={cardSectOnChangeHandler}
               >
                 <option value="backLogCards">backlog</option>

@@ -25,8 +25,6 @@ function Board() {
 
   // const taskDetails = props.taskForBoard;
 
-  console.log(taskDetails);
-
   // SET TEAM MEMBERS
   if (taskDetails) {
     dispatch(membersActions.setCurrentTaskMembers(taskDetails.taskTeam));

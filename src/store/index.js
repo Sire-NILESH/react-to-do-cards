@@ -3,6 +3,7 @@ import currentOptionReducer from "./current-option-slice";
 import allTasksReducer from "./all-tasks-slice";
 import currentUserReducer from "./current-user-slice";
 import membersSliceReducer from "./members-slice";
+import globalErrorReducer from "./global-error-slice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     allTasks: allTasksReducer,
     currentOption: currentOptionReducer,
     members: membersSliceReducer,
+    globalError: globalErrorReducer,
   },
 });
 

@@ -8,7 +8,6 @@ function Card(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [cardToShow, setCardToSHow] = useState({});
-  const [formData, setFormData] = useState({});
 
   const cardToShowHandler = () => {
     setCardToSHow(props.card);
@@ -42,7 +41,7 @@ function Card(props) {
 
   return (
     <div>
-      <div className="card-todo card-dark-mode group  w-full space-y-2 border-t-2 border-l-2 border-[#fdfbfb] p-4 transition-colors duration-300 ease-out hover:!shadow-md dark:border-2 dark:border-gray-800 dark:bg-gray-800 dark:!shadow-none dark:hover:border-gray-700 ">
+      <div className="card-todo card-dark-mode group  w-full space-y-2 border-t-2 border-l-2 border-[#fdfbfb] p-4 transition-colors duration-300 ease-out hover:!shadow-md  dark:border-2 dark:border-gray-800 dark:bg-gray-800 dark:!shadow-none dark:hover:border-gray-900 ">
         <header className="flex items-center justify-between">
           <div
             className={`h-2 w-20 ${
@@ -130,7 +129,6 @@ function Card(props) {
           isOpen={isEditOpen}
           title={props.title}
           taskName={props.taskName}
-          setFormData={setFormData}
           card={{
             title: cardToShow.title,
             date: cardToShow.date,

@@ -42,7 +42,7 @@ function Members(props) {
             <div className="mb-8 flex">
               <span
                 type="button"
-                className="h-10 rounded-full bg-green-300 px-6 py-2 text-center text-base font-semibold uppercase tracking-widest text-slate-600 transition-colors md:tracking-[4px]"
+                className="h-10 rounded-full bg-green-400/90 px-6 py-2 text-center text-base font-semibold uppercase tracking-widest text-slate-600 transition-colors  md:tracking-[4px]"
               >
                 {props.show === "team" ? "Team members" : "All members"}
               </span>

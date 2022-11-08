@@ -114,8 +114,6 @@ const allTasksSlice = createSlice({
         temp.comments = [commentObj];
         temp.totalComments = 1;
       }
-
-      console.log(temp);
     },
 
     // ADD A PROGRESS

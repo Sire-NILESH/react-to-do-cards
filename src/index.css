@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 body:focus {
@@ -16,7 +17,7 @@ body:focus {
   outline: 2px solid rgba(11, 179, 245, 0.932);
   /* outline-offset: 1px; */
   /* or */
-  /* box-shadow: 0 0 0 0.5rem rgba(11, 179, 245, 0.5); */
+  /* box-shadow: 0rem 0rem 0rem 0.5rem rgba(99, 195, 233, 0.5); */
 }
 
 code {
@@ -79,7 +80,7 @@ code {
 }
 
 .card-dark-mode {
-  @apply dark:hover:bg-gradient-to-tr dark:hover:from-purple-600 dark:hover:to-yellow-500;
+  @apply dark:hover:bg-gradient-to-tr dark:hover:from-purple-600  dark:hover:to-yellow-500;
 }
 
 /* scrollbar */

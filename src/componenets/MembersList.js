@@ -10,15 +10,18 @@ function MembersList(props) {
   useEffect(() => {
     setMemberList(props.memberList);
     setDifference(props.difference);
+
+    return () => {
+      setMemberList();
+      setDifference();
+    };
   }, [props.difference, props.memberList]);
 
   const onFormSubmitHandler = (data) => {
-    console.log(data);
     const selected = [...data];
     // selected = data.forEach((m) => {
     //   selected.push(m);
     // });
-    console.log(selected);
     // props.setFormData(formData);
     reset();
     props.closeHandler();
@@ -30,8 +33,6 @@ function MembersList(props) {
         No one's here &nbsp; :-(
       </div>
     );
-  console.log(props.memberList);
-  console.log(memberList);
 
   return (
     <form
@@ -43,7 +44,7 @@ function MembersList(props) {
           memberList?.map((user) => (
             <li
               key={user.userId}
-              className="group relative grid grid-cols-8 grid-rows-2 items-center justify-start gap-x-2 rounded-lg px-2 py-2 hover:bg-purple-100 dark:hover:bg-purple-100/10 md:grid-rows-1"
+              className="group relative grid grid-cols-8 grid-rows-2 items-center justify-start gap-x-2 rounded-lg px-2 py-2 transition-all duration-200 ease-out hover:bg-purple-100/80 hover:shadow-md hover:shadow-purple-300/40 dark:shadow-none dark:hover:bg-purple-100/10 md:grid-rows-1"
             >
               <img
                 src={`users/${user.photoId}.jpg`}
@@ -56,7 +57,7 @@ function MembersList(props) {
               <p className="col-start-2 row-start-2 text-sm text-slate-400">
                 {user.userEmail}
               </p>
-              <p className="col-start-6  text-sm text-slate-400  ">
+              <p className="col-start-6 row-span-2 text-sm text-slate-400  ">
                 {user.role}
               </p>
 
@@ -64,13 +65,13 @@ function MembersList(props) {
                 (difference && difference.includes(user) ? (
                   <input
                     type="checkbox"
-                    className="addedMember col-start-8 h-4 w-4 justify-self-center"
+                    className="addedMember col-start-8 row-span-2 h-4 w-4 justify-self-center"
                     name={user.userName}
                     value={user.userId}
                     {...register(`${user.userId}`)}
                   />
                 ) : (
-                  <span className="col-start-8 justify-self-center">
+                  <span className="col-start-8 row-span-2 justify-self-center">
                     {" "}
                     <HiBadgeCheck className=" h-6 w-6 text-green-600 " />{" "}
                   </span>
@@ -79,7 +80,7 @@ function MembersList(props) {
               {props.type === "remove" && (
                 <input
                   type="checkbox"
-                  className="addedMember col-start-8 h-4 w-4 justify-self-center"
+                  className="addedMember col-start-8 row-span-2 h-4 w-4 justify-self-center"
                   name={user.userName}
                   value={user.userId}
                   {...register(`${user.userName}`)}

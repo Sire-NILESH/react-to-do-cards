@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import CardModal from "./CardModal";
 import { useDispatch } from "react-redux";
 import { allTasksActions } from "../store/all-tasks-slice";
+import { globalErrorActions } from "../store/global-error-slice";
 import { currentOptionActions } from "../store/current-option-slice";
 import { allData } from "./dummyData";
 
@@ -69,6 +70,13 @@ function AddTaskForm(props) {
           })
         );
     reset();
+
+    dispatch(
+      globalErrorActions.setGlobalError({
+        statusCode: 400,
+        message: "Failed to add task",
+      })
+    );
     props.closeHandler();
   };
 
@@ -155,7 +163,7 @@ function AddTaskForm(props) {
                 onChange={taskTitleOnChangeHandler}
               />
               {/* error message */}
-              <div>
+              <div className="">
                 {errors.title?.type === "maxLength" && (
                   <span className="text-xs text-red-500">
                     {" "}

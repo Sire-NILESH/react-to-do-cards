@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 // import { currentUserActions } from "../store/current-user-slice";
 import { useSelector } from "react-redux";
-import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
+import { HiOutlineSun } from "react-icons/hi";
+import { RiMoonClearLine } from "react-icons/ri";
 import Members from "./Members";
 
 function Header(props) {
@@ -9,8 +10,7 @@ function Header(props) {
   const [show, setShow] = useState("");
   const user = useSelector((state) => state.currentUser);
   const taskMembers = useSelector((state) => state.members.currentTaskMembers);
-  const allMembers = useSelector((state) => state.members.allMembers);
-  console.log(allMembers);
+  // const allMembers = useSelector((state) => state.members.allMembers);
 
   function closeModal() {
     setIsOpen(false);
@@ -143,7 +143,7 @@ function Header(props) {
           className="absolute right-1 top-2 h-7 w-7 cursor-pointer rounded-full text-slate-400 shadow-md transition-colors duration-200  ease-out hover:text-slate-400 md:relative md:flex md:h-6 md:w-6 md:items-center"
         >
           {props.currentTheme === "light" ? (
-            <HiOutlineMoon className="h-7 w-7 md:h-6 md:w-6" />
+            <RiMoonClearLine className="h-7 w-7 md:h-6 md:w-6" />
           ) : (
             <HiOutlineSun className="h-7 w-7 md:h-6 md:w-6" />
           )}

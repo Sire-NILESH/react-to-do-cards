@@ -50,7 +50,7 @@ export default function CardsMore(props) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="card-todo absolute right-0 z-20 mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md !bg-[#e9f6ff] py-2 shadow-lg ring-1 ring-black ring-opacity-5  focus:outline-none dark:divide-gray-600 dark:!bg-gray-700  dark:shadow-none ">
+          <Menu.Items className="card-todo absolute right-0 z-20 mt-2 w-64 origin-top-right divide-y divide-gray-200 rounded-md !bg-[#e9f6ff] px-4 py-2 !shadow-xl  ring-opacity-5 focus:outline-none dark:divide-gray-600  dark:!bg-gray-700 dark:shadow-none md:w-44  md:px-0 ">
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (
@@ -98,7 +98,7 @@ export default function CardsMore(props) {
                         aria-hidden="true"
                       />
                     )}
-                    Move to Done
+                    Move to DONE
                   </button>
                 )}
               </Menu.Item>
